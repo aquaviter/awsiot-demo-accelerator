@@ -6,10 +6,10 @@ var queue_length = 10;
 
 // Define parameters for AWS IoT
 var device = awsIot.device({
-   keyPath: 'privatekey.pem',
-    certPath: 'cert.pem',
-    caPath: 'rootca.pem',
-    clientId: 'dummyClient-sub',
+   keyPath: '../certs/privatekey.pem',
+    certPath: '../certs/cert.pem',
+    caPath: '../certs/rootca.pem',
+    clientId: 'viewer',
     region: 'us-east-1'
 });
 

@@ -9,9 +9,9 @@ var topic = 'edison/accl';
 
 // Define paramerters to publish a message
 var device = awsIot.device({
-    keyPath: 'privatekey.pem',
-    certPath: 'cert.pem',
-    caPath: 'rootca.pem',
+    keyPath: '../certs/privatekey.pem',
+    certPath: '../certs/cert.pem',
+    caPath: '../certs/rootca.pem',
     clientId: 'eison_pub_client',
     region: 'us-east-1'
 });
