@@ -1,14 +1,19 @@
 var awsIot = require('aws-iot-device-sdk');
-var topic = 'edison/illuminance';
 
+// Define MQTT topic
+var topic = 'edison/accl';
+var queue_length = 10;
+
+// Define parameters for AWS IoT
 var device = awsIot.device({
    keyPath: 'privatekey.pem',
-  certPath: 'cert.pem',
+    certPath: 'cert.pem',
     caPath: 'rootca.pem',
-  clientId: 'dummyClient-sub',
+    clientId: 'dummyClient-sub',
     region: 'us-east-1'
 });
 
+// Define parameters for blessed 
 var blessed = require('blessed')
   , contrib = require('blessed-contrib')
   , screen = blessed.screen()
@@ -56,23 +61,35 @@ device
 
 // Retrieve message from topic and render graph
 device
-  .on('message', function(topic, payload) {
+    .on('message', function(topic, payload) {
 
-      // Parse subscribed message
-      var data = JSON.parse(payload);
-      var timestamp = moment(data.timestamp).format("HH:mm:ss");
+	// For debug
+	//console.log("subscribed: " + payload);
+	
+	// Parse subscribed message
+	var data = JSON.parse(payload);
 
+	// Remove oldest data if queue length over threshold
+	if ( lineData[0].x.length > queue_length ) {
+	    line.Data[0].x.shift();
+	    line.Data[0].y.shift();
+	    line.Data[1].x.shift();
+	    line.Data[1].y.shift();
+	    line.Data[2].x.shift();
+	    line.Data[2].y.shift();
+	}
+
+	// Append new data 
+	lineData[0].x.push(data.timestamp);
+	lineData[0].y.push(data.acclX);
+	lineData[1].x.push(data.timestamp);
+	lineData[1].y.push(data.acclY);
+	lineData[2].x.push(data.timestamp);
+	lineData[2].y.push(data.acclZ);
       
-      lineData[0].x.push(timestamp);
-      lineData[0].y.push(data.accX);
-      lineData[1].x.push(timestamp);
-      lineData[1].y.push(data.accY);
-      lineData[2].x.push(timestamp);
-      lineData[2].y.push(data.accZ);
-      
-    // Render the graph
-      line.setData(lineData);
-      log.log(payload);
-    screen.render();
+	// Render the graph
+	line.setData(lineData);
+	log.log(payload.toString());
+	screen.render();
 });
 

@@ -9,9 +9,9 @@ Here is a message format edison publishes to AWS IoT.
 ```
 {
   "timestamp" : <Number: Epoch>,
-  "accX" : <Number: float>,
-  "accY" : <Number: float>,
-  "accZ" : <Number: float>
+  "acclX" : <Number: float>,
+  "acclY" : <Number: float>,
+  "acclZ" : <Number: float>
 }
 ```
 
