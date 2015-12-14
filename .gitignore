@@ -1,2 +1,2 @@
-*.pem
+certs/*.pem
 node_modules/*

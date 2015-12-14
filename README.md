@@ -17,7 +17,7 @@ node edison/main.js
 ```Mac
 node viewer/viewer.js
 ```
-Additionally, please add AWS IoT rule to present archive data into S3
+Additionally, please add AWS IoT rule in order to show customers archiving data into S3
 and DynamoDB, and more...
 
 ## Specification
